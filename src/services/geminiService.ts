@@ -1,7 +1,11 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { LessonData, GeneratedLesson } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+const ai =const ai = new GoogleGenAI({ 
+  apiKey: "dummy", 
+  httpOptions: { baseUrl: "https://gemini-proxy.belkadiamine420.workers.dev" } 
+});
+
 
 export async function generateLessonContent(data: LessonData): Promise<GeneratedLesson> {
   const model = "gemini-3-flash-preview";
