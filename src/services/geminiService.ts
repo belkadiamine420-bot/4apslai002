@@ -1,7 +1,7 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { LessonData, GeneratedLesson } from "../types";
 
-const ai =const ai = new GoogleGenAI({ 
+const ai = new GoogleGenAI({ 
   apiKey: "dummy", 
   httpOptions: { baseUrl: "https://gemini-proxy.belkadiamine420.workers.dev" } 
 });
