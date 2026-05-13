@@ -4,10 +4,78 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Google AI Studio App</title>
+    <style>
+      #app-title {
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+      
+      #app-title:hover {
+        background-color: #f0f0f0;
+      }
+      
+      #share-notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 5px;
+        display: none;
+        z-index: 1000;
+        animation: slideIn 0.3s ease-out;
+      }
+      
+      @keyframes slideIn {
+        from {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+    </style>
   </head>
   <body>
+    <h1 id="app-title" title="اضغط لمشاركة الرابط">My Google AI Studio App</h1>
+    <div id="share-notification">تم نسخ الرابط! يمكنك مشاركته الآن</div>
     <div id="root"></div>
+    
+    <script>
+      // وظيفة مشاركة رابط التطبيق
+      document.getElementById('app-title').addEventListener('click', function() {
+        const appUrl = window.location.href;
+        
+        // محاولة استخدام Web Share API إذا كانت متاحة
+        if (navigator.share) {
+          navigator.share({
+            title: 'My Google AI Studio App',
+            text: 'تحقق من هذا التطبيق الرائع',
+            url: appUrl
+          }).catch(err => console.log('خطأ في المشاركة:', err));
+        } else {
+          // إذا لم تكن Web Share API متاحة، نسخ الرابط إلى الحافظة
+          navigator.clipboard.writeText(appUrl).then(() => {
+            // عرض إشعار النسخ
+            const notification = document.getElementById('share-notification');
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+              notification.style.display = 'none';
+            }, 3000);
+          }).catch(err => {
+            console.error('فشل نسخ الرابط:', err);
+            alert('الرابط: ' + appUrl);
+          });
+        }
+      });
+    </script>
+    
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-
